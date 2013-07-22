@@ -1,23 +1,19 @@
 <?php
-function edd_duplicate_download() {
+function edd_duplicate_product() {
 	if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'duplicate_post_save_as_new_page' == $_REQUEST['action'] ) ) ) {
 		wp_die(__('No product to duplicate has been supplied!', 'edd'));
-	}
-	
-	if (!edd_dde_check_license()){
-		wp_die(__('Activate your EDD DDE License!', 'edd'));
 	}
 
 	// Get the original product
 	$id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
-	check_admin_referer( 'edd-duplicate-download_' . $id );
+	check_admin_referer( 'edd-duplicate-product_' . $id );
 	$post = edd_get_product_to_duplicate($id);
 
 	// Copy the product
 	if (isset($post) && $post!=null) {
 		$new_id = edd_create_duplicate_from_product($post);
 
-		do_action( 'edd_duplicate_download', $new_id, $post );
+		do_action( 'edd_duplicate_product', $new_id, $post );
 
 		// Redirect to the edit screen for the new draft page
 		wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_id ) );
