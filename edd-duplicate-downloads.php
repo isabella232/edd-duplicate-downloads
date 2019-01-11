@@ -6,7 +6,7 @@ Description: Duplicates EDD Downloads
 Version: 1.0.1
 Author: Easy Digital Downloads
 Author URI: https://easydigitaldownloads.com
-Text Domain: duplicate_downloads
+Text Domain: edd-duplicate-downloads
  */
 
 function edd_dd_wp() {
@@ -21,3 +21,8 @@ function edd_dd_wp() {
 	}
 }
 add_action('plugins_loaded','edd_dd_wp');
+
+function edd_dd_translate() {
+  load_plugin_textdomain( 'edd-duplicate-downloads', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
+add_action( 'init', 'edd_dd_translate' );
