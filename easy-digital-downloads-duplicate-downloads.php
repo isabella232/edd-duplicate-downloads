@@ -17,7 +17,7 @@ function edd_dd_wp() {
 			require_once( dirname( __FILE__ ) . '/admin.php' );
 		}
 
-		$license = new EDD_License( __FILE__, 'Duplicate Downloads', '1.0.1', 'Sandhills Development, LLC', null, null, null, 74950 );
+		$license = new EDD_License( __FILE__, 'Duplicate Downloads', '1.0.1', 'Sandhills Development, LLC', null, null, 74950 );
 	}
 }
 add_action( 'plugins_loaded', 'edd_dd_wp' );
