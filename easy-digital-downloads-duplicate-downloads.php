@@ -1,14 +1,13 @@
 <?php
-/*
-Plugin Name: Easy Digital Downloads - Duplicate Downloads
-Plugin URI: https://easydigitaldownloads.com/downloads/duplicate-download/
-Description: Duplicates EDD Downloads
-Version: 1.0.1
-Author: Sandhills Development, LLC
-Author URI: https://sandhillsdev.com
-Text Domain: duplicate_downloads
+/**
+ * Plugin Name: Easy Digital Downloads - Duplicate Downloads
+ * Plugin URI: https://easydigitaldownloads.com/downloads/duplicate-download/
+ * Description: Duplicates EDD Downloads
+ * Version: 1.0.1
+ * Author: Sandhills Development, LLC
+ * Author URI: https://sandhillsdev.com
+ * Text Domain: duplicate_downloads
  */
-
 function edd_dd_wp() {
 	if ( class_exists( 'Easy_Digital_Downloads' ) ) {
 		require_once( dirname( __FILE__ ) . '/duplicate.php' );
