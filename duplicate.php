@@ -12,7 +12,7 @@ function edd_duplicate_product() {
 	$post = edd_get_product_to_duplicate( $id );
 
 	// Copy the product
-	if ( isset( $post ) && $post != null ) {
+	if ( null !== $post ) {
 		$new_id = edd_create_duplicate_from_product( $post );
 
 		do_action( 'edd_duplicate_product', $new_id, $post );
@@ -26,17 +26,20 @@ function edd_duplicate_product() {
 }
 
 /**
- * Get a product from the database
+ * Gets a product from the database.
+ *
+ * @param int|string $id The ID of the download to duplicate.
+ * @return object|null Returns an object if a download is found; otherwise null.
  */
-function edd_get_product_to_duplicate($id) {
+function edd_get_product_to_duplicate( $id ) {
 	global $wpdb;
 
 	$post = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE ID=$id" );
-	if ( isset( $post->post_type ) && $post->post_type == "revision" ){
+	if ( isset( $post->post_type ) && $post->post_type == "revision" ) {
 		$id   = $post->post_parent;
 		$post = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE ID=$id" );
 	}
-	return $post[0];
+	return is_array( $post ) ? reset( $post ) : null;
 }
 
 /**
@@ -48,7 +51,7 @@ function edd_create_duplicate_from_product( $post, $parent = 0, $post_status = '
 	$new_post_author   = wp_get_current_user();
 	$new_post_date     = current_time( 'mysql' );
 	$new_post_date_gmt = get_gmt_from_date( $new_post_date );
-	
+
 	if ( $parent > 0 ) {
 		$post_parent = $parent;
 		$post_status = $post_status ? $post_status : 'publish';
@@ -86,15 +89,6 @@ function edd_create_duplicate_from_product( $post, $parent = 0, $post_status = '
 	// Clear Sales Data
 	update_post_meta( $new_post_id, '_edd_download_earnings', '0.00' );
 	update_post_meta( $new_post_id, '_edd_download_sales', '0' );
-
-	// Copy the children (variations)
-	if ( $children_products = get_children( 'post_parent=' . $post->ID . '&post_type=product_variation' ) ) {
-		if ( $children_products ) {
-			foreach ( $children_products as $child ) {
-				edd_create_duplicate_from_product( edd_get_product_to_duplicate( $child->ID ), $new_post_id, $child->post_status );
-			}
-		}
-	}
 
 	return $new_post_id;
 }
