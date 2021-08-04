@@ -34,11 +34,12 @@ function edd_duplicate_product() {
 function edd_get_product_to_duplicate( $id ) {
 	global $wpdb;
 
-	$post = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE ID=$id" );
-	if ( isset( $post->post_type ) && $post->post_type == "revision" ) {
+	$post = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID = %d", $id ) );
+	if ( isset( $post->post_type ) && 'revision' === $post->post_type ) {
 		$id   = $post->post_parent;
-		$post = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE ID=$id" );
+		$post = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID = %d", $id ) );
 	}
+
 	return is_array( $post ) ? reset( $post ) : null;
 }
 
@@ -73,10 +74,32 @@ function edd_create_duplicate_from_product( $post, $parent = 0, $post_status = '
 
 	// Insert the new template in the post table
 	$wpdb->query(
-			"INSERT INTO $wpdb->posts
+		$wpdb->prepare(
+			"INSERT INTO {$wpdb->posts}
 			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
 			VALUES
-			('$new_post_author->ID', '$new_post_date', '$new_post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$new_post_type', '$comment_status', '$ping_status', '$post->post_password', '$post->to_ping', '$post->pinged', '$new_post_date', '$new_post_date_gmt', '$post_parent', '$post->menu_order', '$post->post_mime_type')");
+			(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+			$new_post_author->ID,
+			$new_post_date,
+			$new_post_date_gmt,
+			$post_content,
+			$post_content_filtered,
+			$post_title,
+			$post_excerpt,
+			$post_status,
+			$new_post_type,
+			$comment_status,
+			$ping_status,
+			$post->post_password,
+			$post->to_ping,
+			$post->pinged,
+			$new_post_date,
+			$new_post_date_gmt,
+			$post_parent,
+			$post->menu_order,
+			$post->post_mime_type
+		)
+	);
 
 	$new_post_id = $wpdb->insert_id;
 
@@ -112,19 +135,22 @@ function edd_duplicate_post_taxonomies( $id, $new_id, $post_type ) {
 
 /**
  * Copy the meta information of a Product to another Product
+ *
+ * @param int $id     The original download ID.
+ * @param int $new_id The new download ID.
  */
-function edd_duplicate_post_meta($id, $new_id) {
+function edd_duplicate_post_meta( $id, $new_id ) {
 	global $wpdb;
-	$post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$id");
+	$post_meta_infos = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id = %d", $id ) );
 
-	if (count($post_meta_infos)!=0) {
-		$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
-		foreach ($post_meta_infos as $meta_info) {
-			$meta_key = $meta_info->meta_key;
-			$meta_value = addslashes($meta_info->meta_value);
-			$sql_query_sel[]= "SELECT $new_id, '$meta_key', '$meta_value'";
+	if ( count( $post_meta_infos ) ) {
+		$sql_query = "INSERT INTO {$wpdb->postmeta} (post_id, meta_key, meta_value) ";
+		foreach ( $post_meta_infos as $meta_info ) {
+			$meta_key        = $meta_info->meta_key;
+			$meta_value      = addslashes( $meta_info->meta_value );
+			$sql_query_sel[] = "SELECT {$new_id}, {$meta_key}, {$meta_value}";
 		}
-		$sql_query.= implode(" UNION ALL ", $sql_query_sel);
-		$wpdb->query($sql_query);
+		$sql_query .= implode( " UNION ALL ", $sql_query_sel );
+		$wpdb->query( $sql_query );
 	}
 }
