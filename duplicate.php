@@ -153,7 +153,7 @@ function edd_duplicate_post_meta( $id, $new_id ) {
 		foreach ( $post_meta_infos as $meta_info ) {
 			$meta_key        = $meta_info->meta_key;
 			$meta_value      = addslashes( $meta_info->meta_value );
-			$sql_query_sel[] = "SELECT {$new_id}, {$meta_key}, {$meta_value}";
+			$sql_query_sel[] = "SELECT {$new_id}, '{$meta_key}', '{$meta_value}'";
 		}
 		$sql_query .= implode( " UNION ALL ", $sql_query_sel );
 		$wpdb->query( $sql_query );
