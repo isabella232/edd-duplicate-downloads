@@ -2,12 +2,17 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 function edd_duplicate_product() {
-	if ( ! ( isset( $_GET['post'] ) || isset( $_POST['post'] )  || ( isset( $_REQUEST['action'] ) && 'duplicate_post_save_as_new_page' == $_REQUEST['action'] ) ) ) {
+
+	// Get the original product
+	$id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+	if ( empty( $id ) ) {
+		$id = filter_input( INPUT_POST, 'post', FILTER_SANITIZE_NUMBER_INT );
+	}
+
+	if ( empty( $id ) || ( isset( $_REQUEST['action'] ) && 'duplicate_post_save_as_new_page' === $_REQUEST['action'] ) ) {
 		wp_die( __( 'No product to duplicate has been supplied!', 'edd' ) );
 	}
 
-	// Get the original product
-	$id = ( isset( $_GET['post'] ) ? $_GET['post'] : $_POST['post'] );
 	check_admin_referer( 'edd-duplicate-product_' . $id );
 	$post = edd_get_product_to_duplicate( $id );
 
@@ -18,7 +23,7 @@ function edd_duplicate_product() {
 		do_action( 'edd_duplicate_product', $new_id, $post );
 
 		// Redirect to the edit screen for the new draft page
-		wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_id ) );
+		wp_safe_redirect( admin_url( 'post.php?action=edit&post=' . $new_id ) );
 		exit;
 	} else {
 		wp_die( __( 'Product creation failed, could not find original product:', 'edd' ) . ' ' . $id );
