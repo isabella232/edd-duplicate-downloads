@@ -41,3 +41,25 @@ function edd_duplicate_product_action() {
 	edd_duplicate_product();
 }
 add_action('admin_action_duplicate_product', 'edd_duplicate_product_action');
+
+/**
+ * Gets the URL to duplicate a download.
+ *
+ * @param int $post_id
+ * @return string
+ */
+function edd_duplicate_product_get_duplicate_url( $post_id ) {
+
+	$post_id = (int) $post_id;
+
+	return wp_nonce_url(
+		add_query_arg(
+			array(
+				'action' => 'duplicate_product',
+				'post'   => $post_id,
+			),
+			admin_url( 'admin.php' )
+		),
+		"edd-duplicate-product_{$post_id}"
+	);
+}
