@@ -39,13 +39,13 @@ function edd_duplicate_product() {
 function edd_get_product_to_duplicate( $id ) {
 	global $wpdb;
 
-	$post = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID = %d", $id ) );
+	$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID = %d", $id ) );
 	if ( isset( $post->post_type ) && 'revision' === $post->post_type ) {
 		$id   = $post->post_parent;
-		$post = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID = %d", $id ) );
+		$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID = %d", $id ) );
 	}
 
-	return is_array( $post ) ? reset( $post ) : null;
+	return $post;
 }
 
 /**
