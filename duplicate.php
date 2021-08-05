@@ -149,11 +149,15 @@ function edd_duplicate_post_meta( $id, $new_id ) {
 	$post_meta_infos = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id = %d", $id ) );
 
 	if ( count( $post_meta_infos ) ) {
-		$sql_query = "INSERT INTO {$wpdb->postmeta} (post_id, meta_key, meta_value) ";
+		$sql_query     = "INSERT INTO {$wpdb->postmeta} (post_id, meta_key, meta_value) ";
+		$sql_query_sel = array();
 		foreach ( $post_meta_infos as $meta_info ) {
-			$meta_key        = $meta_info->meta_key;
-			$meta_value      = addslashes( $meta_info->meta_value );
-			$sql_query_sel[] = "SELECT {$new_id}, '{$meta_key}', '{$meta_value}'";
+			$sql_query_sel[] = $wpdb->prepare(
+				"SELECT %d, %s, %s",
+				$new_id,
+				$meta_info->meta_key,
+				$meta_info->meta_value
+			);
 		}
 		$sql_query .= implode( " UNION ALL ", $sql_query_sel );
 		$wpdb->query( $sql_query );
