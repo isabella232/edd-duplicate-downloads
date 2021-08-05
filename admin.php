@@ -14,7 +14,7 @@ function edd_duplicate_product_link_row( $actions, $post ) {
 
 	$actions['duplicate'] = sprintf(
 		'<a href="%s" rel="permalink">%s</a>',
-		edd_duplicate_product_get_duplicate_url( $post->ID ),
+		esc_url( edd_duplicate_product_get_duplicate_url( $post->ID ) ),
 		__( 'Duplicate', 'edd' )
 	);
 
@@ -67,7 +67,7 @@ function edd_duplicate_product_get_duplicate_url( $post_id ) {
 		add_query_arg(
 			array(
 				'action' => 'duplicate_product',
-				'post'   => $post_id,
+				'post'   => urlencode( $post_id ),
 			),
 			admin_url( 'admin.php' )
 		),
