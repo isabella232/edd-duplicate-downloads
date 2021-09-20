@@ -54,6 +54,7 @@ add_action( 'post_submitbox_start', 'edd_duplicate_product_post_button' );
  * @return void
  */
 function edd_duplicate_product_action() {
+	_deprecated_function( __FUNCTION__, '1.0.2', 'edd_duplicate_product' );
 	require_once dirname( __FILE__ ) . '/duplicate.php';
 	edd_duplicate_product();
 }
