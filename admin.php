@@ -58,7 +58,6 @@ function edd_duplicate_product_action() {
 	require_once dirname( __FILE__ ) . '/duplicate.php';
 	edd_duplicate_product();
 }
-add_action( 'admin_action_duplicate_product', 'edd_duplicate_product' );
 
 /**
  * Gets the URL to duplicate a download.
