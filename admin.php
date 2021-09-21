@@ -47,11 +47,17 @@ function edd_duplicate_product_post_button() {
 }
 add_action( 'post_submitbox_start', 'edd_duplicate_product_post_button' );
 
+/**
+ * Includes the duplicate.php file and runs edd_duplicate_product.
+ *
+ * @deprecated 1.0.2 because the require_once is not needed.
+ * @return void
+ */
 function edd_duplicate_product_action() {
+	_deprecated_function( __FUNCTION__, '1.0.2', 'edd_duplicate_product' );
 	require_once dirname( __FILE__ ) . '/duplicate.php';
 	edd_duplicate_product();
 }
-add_action( 'admin_action_duplicate_product', 'edd_duplicate_product_action' );
 
 /**
  * Gets the URL to duplicate a download.

@@ -29,6 +29,7 @@ function edd_duplicate_product() {
 		wp_die( __( 'Product creation failed, could not find original product:', 'edd' ) . ' ' . $id );
 	}
 }
+add_action( 'admin_action_duplicate_product', 'edd_duplicate_product' );
 
 /**
  * Gets a product from the database.
