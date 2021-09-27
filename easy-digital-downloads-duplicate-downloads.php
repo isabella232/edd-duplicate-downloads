@@ -6,7 +6,7 @@
  * Version: 1.0.1
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Text Domain: duplicate_downloads
+ * Text Domain: edd-duplicate-downloads
  */
 function edd_dd_wp() {
 	if ( class_exists( 'Easy_Digital_Downloads' ) ) {
@@ -20,3 +20,13 @@ function edd_dd_wp() {
 	}
 }
 add_action( 'plugins_loaded', 'edd_dd_wp' );
+
+/**
+ * Loads the plugin textdomain.
+ *
+ * @since 1.0.2
+ */
+function edd_dd_translate() {
+  load_plugin_textdomain( 'edd-duplicate-downloads', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
+add_action( 'init', 'edd_dd_translate' );

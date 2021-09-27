@@ -15,7 +15,7 @@ function edd_duplicate_product_link_row( $actions, $post ) {
 	$actions['duplicate'] = sprintf(
 		'<a href="%s" rel="permalink">%s</a>',
 		esc_url( edd_duplicate_product_get_duplicate_url( $post->ID ) ),
-		__( 'Duplicate', 'edd' )
+		__( 'Duplicate', 'edd-duplicate-downloads' )
 	);
 
 	return $actions;
@@ -42,7 +42,7 @@ function edd_duplicate_product_post_button() {
 	}
 
 	?>
-	<div id="duplicate-action"><a class="submitduplicate duplication" href="<?php echo esc_url( edd_duplicate_product_get_duplicate_url( $post->ID ) ); ?>"><?php esc_html_e( 'Duplicate Me!', 'edd' ); ?></a></div>
+	<div id="duplicate-action"><a class="submitduplicate duplication" href="<?php echo esc_url( edd_duplicate_product_get_duplicate_url( $post->ID ) ); ?>"><?php esc_html_e( 'Duplicate Me!', 'edd-duplicate-downloads' ); ?></a></div>
 	<?php
 }
 add_action( 'post_submitbox_start', 'edd_duplicate_product_post_button' );
