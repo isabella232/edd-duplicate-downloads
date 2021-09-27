@@ -1,0 +1,59 @@
+# Copyright (C) 2021 Easy Digital Downloads
+# This file is distributed under the same license as the Easy Digital Downloads - Duplicate Downloads plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy Digital Downloads - Duplicate Downloads 1.0.1\n"
+"Report-Msgid-Bugs-To: https://easydigitaldownloads.com/support\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-09-27T10:20:32+01:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: edd-duplicate-downloads\n"
+
+#. Plugin Name of the plugin
+msgid "Easy Digital Downloads - Duplicate Downloads"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://easydigitaldownloads.com/downloads/duplicate-download/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Duplicates EDD Downloads"
+msgstr ""
+
+#. Author of the plugin
+msgid "Easy Digital Downloads"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://easydigitaldownloads.com"
+msgstr ""
+
+#: admin.php:10
+msgid "Make a duplicate from this product"
+msgstr ""
+
+#: admin.php:11
+msgid "Duplicate"
+msgstr ""
+
+#: admin.php:33
+msgid "Duplicate Me!"
+msgstr ""
+
+#: duplicate.php:6
+msgid "No product to duplicate has been supplied!"
+msgstr ""
+
+#: duplicate.php:24
+msgid "Product creation failed, could not find original product:"
+msgstr ""
+
+#: duplicate.php:59
+msgid "(Copy)"
+msgstr ""
