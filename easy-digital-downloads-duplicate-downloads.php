@@ -22,6 +22,11 @@ function edd_dd_wp() {
 }
 add_action('plugins_loaded','edd_dd_wp');
 
+/**
+ * Loads the plugin textdomain.
+ *
+ * @since 1.0.2
+ */
 function edd_dd_translate() {
   load_plugin_textdomain( 'edd-duplicate-downloads', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
