@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 function edd_duplicate_product() {
 	if ( ! ( isset( $_GET['post'] ) || isset( $_POST['post'] )  || ( isset( $_REQUEST['action'] ) && 'duplicate_post_save_as_new_page' == $_REQUEST['action'] ) ) ) {
-		wp_die( __( 'No product to duplicate has been supplied!', 'edd' ) );
+		wp_die( __( 'No product to duplicate has been supplied!', 'edd-duplicate-downloads' ) );
 	}
 
 	// Get the original product
@@ -21,7 +21,7 @@ function edd_duplicate_product() {
 		wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_id ) );
 		exit;
 	} else {
-		wp_die( __( 'Product creation failed, could not find original product:', 'edd' ) . ' ' . $id );
+		wp_die( __( 'Product creation failed, could not find original product:', 'edd-duplicate-downloads' ) . ' ' . $id );
 	}
 }
 
@@ -48,7 +48,7 @@ function edd_create_duplicate_from_product( $post, $parent = 0, $post_status = '
 	$new_post_author   = wp_get_current_user();
 	$new_post_date     = current_time( 'mysql' );
 	$new_post_date_gmt = get_gmt_from_date( $new_post_date );
-	
+
 	if ( $parent > 0 ) {
 		$post_parent = $parent;
 		$post_status = $post_status ? $post_status : 'publish';
@@ -56,7 +56,7 @@ function edd_create_duplicate_from_product( $post, $parent = 0, $post_status = '
 	} else {
 		$post_parent = $post->post_parent;
 		$post_status = $post_status ? $post_status : 'draft';
-		$suffix      = ' ' . __( "(Copy)", 'edd' );
+		$suffix      = ' ' . __( "(Copy)", 'edd-duplicate-downloads' );
 	}
 
 	$new_post_type         = $post->post_type;
